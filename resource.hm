@@ -1,0 +1,4 @@
+// Microsoft Developer Studio generated Help ID include file.
+// Used by sss.rc
+//
+#define HIDC_MODELLIST                  0x806603e9    // IDD_SSS_DIALOG
