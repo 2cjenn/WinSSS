@@ -57,12 +57,15 @@ void Model_Contact::Initialization()
 		break;
 	case 1:
 		for (i = 0; i < nRow * nCol; i++)
+		{
 			pStateArray[i] = 0;
-		for (i=-3; i<=3; i++)
-			for (j=-3; j<=3; j++)
-			{
-				State((nRow/2+i), (nCol/2+j)) = 1;
-			}
+		}
+			for (i = -3; i <= 3; i++)
+				for (j = -3; j <= 3; j++)
+				{
+					State((nRow / 2 + i), (nCol / 2 + j)) = 1;
+				}
+		
 
 		break;
 	}

@@ -1,0 +1,80 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: sss - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP4D.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Release/" /Fp"Release/sss.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\SSS\Code\Model_Contact.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP4D.tmp" 
+Creating temporary file "C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP4E.tmp" with contents
+[
+opengl32.lib glu32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/sss.pdb" /machine:I386 /out:"Release/sss.exe" 
+.\Release\Model_Contact.obj
+.\Release\Model_Cyclic.obj
+.\Release\Model_EP.obj
+.\Release\Model_GH.obj
+.\Release\Model_LVoter.obj
+.\Release\Model_MultiContact.obj
+.\Release\Model_RSP.obj
+.\Release\ModelTemplate.obj
+.\Release\MyRand.obj
+.\Release\ParaDlg_Contact.obj
+.\Release\ParaDlg_Cyclic.obj
+.\Release\ParaDlg_Ep.obj
+.\Release\ParaDlg_GH.obj
+.\Release\ParaDlg_MultiCont.obj
+.\Release\ParaDlg_RSP.obj
+.\Release\ParaDlg_Voter.obj
+.\Release\SpatialWnd.obj
+.\Release\sss.obj
+.\Release\sssDlg.obj
+.\Release\sssWnd.obj
+.\Release\StdAfx.obj
+.\Release\sss.res
+]
+Creating command line "link.exe @C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP4E.tmp"
+<h3>Output Window</h3>
+Compiling...
+Model_Contact.cpp
+Linking...
+Creating temporary file "C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP50.tmp" with contents
+[
+/nologo /o"Release/sss.bsc" 
+.\Release\StdAfx.sbr
+.\Release\Model_Contact.sbr
+.\Release\Model_Cyclic.sbr
+.\Release\Model_EP.sbr
+.\Release\Model_GH.sbr
+.\Release\Model_LVoter.sbr
+.\Release\Model_MultiContact.sbr
+.\Release\Model_RSP.sbr
+.\Release\ModelTemplate.sbr
+.\Release\MyRand.sbr
+.\Release\ParaDlg_Contact.sbr
+.\Release\ParaDlg_Cyclic.sbr
+.\Release\ParaDlg_Ep.sbr
+.\Release\ParaDlg_GH.sbr
+.\Release\ParaDlg_MultiCont.sbr
+.\Release\ParaDlg_RSP.sbr
+.\Release\ParaDlg_Voter.sbr
+.\Release\SpatialWnd.sbr
+.\Release\sss.sbr
+.\Release\sssDlg.sbr
+.\Release\sssWnd.sbr]
+Creating command line "bscmake.exe @C:\DOCUME~1\GUAN\LOCALS~1\Temp\RSP50.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+sss.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

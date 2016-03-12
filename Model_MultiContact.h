@@ -11,16 +11,22 @@
 
 #include "ModelTemplate.h"
 #include "ParaDlg_MultiCont.h"
+#include <random>
 
 class Model_MultiContact : public ModelTemplate 
 {
 
 public:
 	ParaDlg_MultiCont * Para;
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution;
+
 public:
 
 	void Simulation(SpatialWnd *, int);
 	void Initialization();
+	void ResetTimers();
+	char * ModState(int, int);
 	Model_MultiContact();
 	Model_MultiContact(int);
 	Model_MultiContact(int, void*);

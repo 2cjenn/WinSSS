@@ -403,10 +403,10 @@ BEGIN
     EDITTEXT        IDC_EDIT_Birth2,34,35,26,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_Death1,104,10,26,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_Death2,104,35,26,14,ES_AUTOHSCROLL
-    LTEXT           "b(0,1)",IDC_STATIC,10,13,19,8
-    LTEXT           "b(0,2)",IDC_STATIC,10,39,19,8
-    LTEXT           "d(1,0)",IDC_STATIC,80,13,19,8
-    LTEXT           "d(2,0)",IDC_STATIC,80,37,19,8
+    LTEXT           "HinfH",IDC_STATIC,10,13,19,8//"b(0,1)"
+    LTEXT           "Mmov",IDC_STATIC,10,39,19,8//"b(0,2)"
+    LTEXT           "Hrec",IDC_STATIC,80,13,19,8//"d(1,0)"
+    LTEXT           "Mdie",IDC_STATIC,80,37,19,8//"d(2,0)"
 END
 
 IDD_SPATIAL_WND_DLG DIALOG DISCARDABLE  0, 0, 282, 186

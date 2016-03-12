@@ -15,7 +15,7 @@
 #include "MyRand.h"
 #include "SpatialWnd.h"
 
-#define State(i, j)  pStateArray[i + j * nRow]
+#define State(i, j)  pStateArray[(i) + ((j) * nRow)]
 
 
 class ModelTemplate
@@ -31,6 +31,12 @@ protected:
     int nbrY[24];
 	int nTotal;
 	int nWndSize; // window size for freq.
+	double ** timerArray;
+	int nTimers;
+	int action;
+	int xLocation;
+	int yLocation;
+	double minTimer;
 
 public: 
 	MyRand * pRand;
@@ -45,6 +51,7 @@ public:
 	int GetCol();
 	int GetRow();
 	
+	
 	friend void sssWnd::DrawPhasePortrait(void *, double,int, int, int);
 	friend void sssWnd::Paint(void *, double);
 	friend void sssWnd::Drawlines(void *, int, int, double);
@@ -52,10 +59,13 @@ public:
 	ModelTemplate(int);
 	ModelTemplate(int, void *);
 	virtual ~ModelTemplate();
+	
 
 protected:	
 	void Simulation(); //simulation method that need to be overloaded. 
 	void FreqStat();   //calc the freq. of each species within a window whose size is given by nWndSize show by drwaline()
+	
+
 
 
 };

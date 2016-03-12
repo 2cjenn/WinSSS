@@ -641,7 +641,7 @@ void CSssDlg::go()
 			m_line.Drawlines(pM_MultiCont, nStepCount++, nLinesPos, dLinesDist);//nStepCount++, dFreq, nLinesPos, dLinesDist, nStates);
 			
 			wglMakeCurrent( m_legend.hDC, m_legend.hRC );
-			m_legend.DrawLegend(pM_MultiCont, 3);
+			m_legend.DrawLegend(pM_MultiCont, 4);
 		
 		}
 

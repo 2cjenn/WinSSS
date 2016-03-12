@@ -19,10 +19,10 @@ ParaDlg_MultiCont::ParaDlg_MultiCont(CWnd* pParent /*=NULL*/)
 	: CDialog(ParaDlg_MultiCont::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(ParaDlg_MultiCont)
-	m_birth1 = 2.0f;
-	m_birth2 = 2.0f;
-	m_death1 = 1.0f;
-	m_death2 = 1.0f;
+	m_birth1 = 0.25f;
+	m_birth2 = 3.0f;
+	m_death1 = 0.5f;
+	m_death2 = 0.5f;
 	//}}AFX_DATA_INIT
 }
 
