@@ -11,15 +11,21 @@
 
 #include "ModelTemplate.h"
 #include "ParaDlg_Contact.h"
+#include <random>
 
 class Model_Contact : public ModelTemplate  
 {
 public:
 	ParaDlg_Contact * Para;
+
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution;
 public:
 
 	void Simulation(SpatialWnd *, int);
 	void Initialization();
+	void ResetTimers();
+	char * ModState(int, int);
 	Model_Contact();
 	Model_Contact(int);
 	Model_Contact(int, void*);

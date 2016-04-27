@@ -48,24 +48,12 @@ Model_MultiContact::Model_MultiContact(int rowcol, void * tempPara)
 	Initialization();
 }
 
-enum Infected { Neither = 0, Mosquito = 1, Human = 2, Both = 3 };
+enum Infected { Neither = 0, HumanA = 1, HumanB = 2, Both = 3 };
 
 void Model_MultiContact::ResetTimers()
 {
-	/*double dBirth1 = Para->m_birth1;
-	double dBirth2 = Para->m_birth2;
-	double dDeath1 = Para->m_death1;
-	double dDeath2 = Para->m_death2;*/
-
 	double hRecover = Para->m_death1;
-	double hInfectH = Para->m_birth1;
-	double mInfectH = 1;
-
-	double mDie = Para->m_death2;
-	double hInfectM = 1;
-	double mJump = Para->m_birth2;
-
-	/*double bite = 1;*/
+	double hInfected = Para->m_birth1;
 
 	std::exponential_distribution<double> d1(1.0);
 
@@ -79,55 +67,91 @@ void Model_MultiContact::ResetTimers()
 		for (int l = 0; l < nCol; l++)
 		{
 			//find normal lattice neighbours
-			double infNbrH = 0.0;
-			double infNbrM = 0.0;
+			double infNbrHB = 0.0;
+			double infNbrHA = 0.0;
 			for (int i = 0; i < 4; i++)
 			{
 				int kMod = k + nbrX[i];
 				int lMod = l + nbrY[i];
 
-				if ((*ModState(kMod, lMod) == Human) || (*ModState(kMod, lMod) == Both))
+				if ((*ModState(kMod, lMod) == HumanB) || (*ModState(kMod, lMod) == Both))
 				{
-					infNbrH += .25;
+					infNbrHB += 1.0;
 				}
 
-				if ((*ModState(kMod, lMod) == Mosquito) || (*ModState(kMod, lMod) == Both))
+				if ((*ModState(kMod, lMod) == HumanA) || (*ModState(kMod, lMod) == Both))
 				{
-					infNbrM += .25;
+					infNbrHA += 1.0;
 				}
 			}
 			//find connected lattice neighbours
-			double infBiteNbrH = 0.0;
-			double infBiteNbrM = 0.0;
+			double infConnNbrHB = 0.0;
+			double infConnNbrHA = 0.0;
 
+			//For r = 1
 			for (int i = 0; i < 8; i++)
 			{
 				int kMod = k + nbrX[i];
 				int lMod = l + nbrY[i];
 
-				if ((*ModState(kMod, lMod) == Human) || (*ModState(kMod, lMod) == Both))
+				if ((*ModState(kMod, lMod) == HumanB) || (*ModState(kMod, lMod) == Both))
 				{
-					infBiteNbrH += 1.0 / 9.0;
+					infConnNbrHB += 1.0;
 				}
 
-				if ((*ModState(kMod, lMod) == Mosquito) || (*ModState(kMod, lMod) == Both))
+				if ((*ModState(kMod, lMod) == HumanA) || (*ModState(kMod, lMod) == Both))
 				{
-					infBiteNbrM += 1.0 / 9.0;
+					infConnNbrHA += 1.0;
 				}
 			}
-			if ((State(k, l) == Human) || (State(k, l) == Both))
+
+			//For r = 5
+			/*for (int i = 0; i < 40; i++)
 			{
-				infBiteNbrH += 1.0 / 9.0;
-			}
-			if ((State(k, l) == Mosquito) || (State(k, l) == Both))
+				int kMod = k + nbrFX[i];
+				int lMod = l + nbrFY[i];
+
+				if ((*ModState(kMod, lMod) == HumanB) || (*ModState(kMod, lMod) == Both))
+				{
+					infConnNbrHB += 1.0;
+				}
+
+				if ((*ModState(kMod, lMod) == HumanA) || (*ModState(kMod, lMod) == Both))
+				{
+					infConnNbrHA += 1.0;
+				}
+			}*/
+
+			//For r = 10
+			/*for (int i = 0; i < 80; i++)
 			{
-				infBiteNbrM += 1.0 / 9.0;
+				int kMod = k + nbrTX[i];
+				int lMod = l + nbrTY[i];
+
+				if ((*ModState(kMod, lMod) == HumanB) || (*ModState(kMod, lMod) == Both))
+				{
+					infConnNbrHB += 1.0;
+				}
+
+				if ((*ModState(kMod, lMod) == HumanA) || (*ModState(kMod, lMod) == Both))
+				{
+					infConnNbrHA += 1.0;
+				}
+			}*/
+
+			/*if ((State(k, l) == HumanB) || (State(k, l) == Both))
+			{
+				infConnNbrHB += 1.0;
 			}
+			if ((State(k, l) == HumanA) || (State(k, l) == Both))
+			{
+				infConnNbrHA += 1.0;
+			}*/
 
 			double timer;
 
-			//Case 0 Human Recover
-			if ((State(k, l) == Human) || (State(k, l) == Both))
+			//Case 0 Recovery on A
+			if ((State(k, l) == HumanB) || (State(k, l) == Both))
 			{
 				timer = d1(generator);
 				timer = timer / hRecover;
@@ -139,13 +163,13 @@ void Model_MultiContact::ResetTimers()
 					minTimer = timer;
 				}
 			}
-			//Case 1 Human STI
-			if ((State(k, l) == Neither) || (State(k, l) == Mosquito))
+			//Case 1 Infection on lattice B
+			if ((State(k, l) == Neither) || (State(k, l) == HumanA))
 			{
-				if (infNbrH != 0)
+				if (infNbrHB != 0)
 				{
 					timer = d1(generator);
-					timer = timer / (hInfectH * infNbrH);
+					timer = timer / (hInfected * infNbrHB);
 					if (timer < minTimer)
 					{
 						action = 1;
@@ -155,13 +179,13 @@ void Model_MultiContact::ResetTimers()
 					}
 				}
 			}
-			//Case 2 Human bitten
-			if ((State(k, l) == Neither) || (State(k, l) == Mosquito))
+			//Case 2 B infected by A
+			if ((State(k, l) == Neither) || (State(k, l) == HumanA))
 			{
-				if (infBiteNbrM != 0)
+				if (infConnNbrHA != 0)
 				{
 					timer = d1(generator);
-					timer = timer / (mInfectH * infBiteNbrM);
+					timer = timer / (hInfected * infConnNbrHA);
 					if (timer < minTimer)
 					{
 						action = 2;
@@ -171,11 +195,11 @@ void Model_MultiContact::ResetTimers()
 					}
 				}
 			}
-			//Case 3 Mosquito Die
-			if ((State(k, l) == Mosquito) || (State(k, l) == Both))
+			//Case 3 Recover on B
+			if ((State(k, l) == HumanA) || (State(k, l) == Both))
 			{
 				timer = d1(generator);
-				timer = timer / mDie;
+				timer = timer / hRecover;
 				if (timer < minTimer)
 				{
 					action = 3;
@@ -184,13 +208,13 @@ void Model_MultiContact::ResetTimers()
 					minTimer = timer;
 				}
 			}
-			//Case 4 Mosquito bites
-			if ((State(k, l) == Neither) || (State(k, l) == Human))
+			//Case 4 A infected by B
+			if ((State(k, l) == Neither) || (State(k, l) == HumanB))
 			{
-				if (infBiteNbrH != 0)
+				if (infConnNbrHB != 0)
 				{
 					timer = d1(generator);
-					timer = timer / (hInfectM * infBiteNbrH);
+					timer = timer / (hInfected * infConnNbrHB);
 					if (timer < minTimer)
 					{
 						action = 4;
@@ -200,16 +224,16 @@ void Model_MultiContact::ResetTimers()
 					}
 				}
 			}
-			//Case 5 Mosquito moves
-			if ((State(k, l) == Mosquito) || (State(k, l) == Both))
+			//Case 5 Infection on lattice A
+			if ((State(k, l) == Neither) || (State(k, l) == HumanB))
 			{
-				if (1 - infNbrM != 0)
+				if (infNbrHA != 0)
 				{
 					timer = d1(generator);
-					timer = timer / (mJump * (1 - infNbrM));
+					timer = timer / (hInfected * infNbrHA);
 					if (timer < minTimer)
 					{
-						action = 5;
+						action = 1;
 						xLocation = k;
 						yLocation = l;
 						minTimer = timer;
@@ -238,32 +262,12 @@ char * Model_MultiContact::ModState(int x, int y)
 void Model_MultiContact::Initialization()
 {
 	for (int i = 0; i < nRow * nCol; i++)
-		//pStateArray[i] = pRand->IRandom(0, 1);
 	{
-		/*if (0.9 > pRand->Random())
-			pStateArray[i] = Neither;
-		else
-			pStateArray[i] = Mosquito;*/
-
 		pStateArray[i] = 0;
 	}
 	for (int i = -1; i <= 1; i++)
 	{
 		for (int j = -1; j <= 1; j++)
-		{
-			State((nRow / 2 + i), (nCol / 2 + j)) = 1;
-		}
-	}
-	for (int i = -32; i <= -30; i++)
-	{
-		for (int j = -15; j <= -13; j++)
-		{
-			State((nRow / 2 + i), (nCol / 2 + j)) = 1;
-		}
-	}
-	for (int i = 22; i <= 24; i++)
-	{
-		for (int j = 35; j <= 37; j++)
 		{
 			State((nRow / 2 + i), (nCol / 2 + j)) = 1;
 		}
@@ -287,271 +291,49 @@ void Model_MultiContact::Simulation(SpatialWnd * pSpatial, int speed)
 		case -1:
 			break;
 		case 0:
-			if (State(xLocation, yLocation) == Human)
+			if (State(xLocation, yLocation) == HumanB)
 			{
 				State(xLocation, yLocation) = Neither;
 			}
 			else if (State(xLocation, yLocation) == Both)
 			{
-				State(xLocation, yLocation) = Mosquito;
+				State(xLocation, yLocation) = HumanA;
 			}
 			break;
 		case 1:
 		case 2:
 			if (State(xLocation, yLocation) == Neither)
 			{
-				State(xLocation, yLocation) = Human;
+				State(xLocation, yLocation) = HumanB;
 			}
-			else if (State(xLocation, yLocation) == Mosquito)
+			else if (State(xLocation, yLocation) == HumanA)
 			{
 				State(xLocation, yLocation) = Both;
 			}
 			break;
 		case 3:
-			if (State(xLocation, yLocation) == Mosquito)
+			if (State(xLocation, yLocation) == HumanA)
 			{
 				State(xLocation, yLocation) = Neither;
 			}
 			else if (State(xLocation, yLocation) == Both)
 			{
-				State(xLocation, yLocation) = Human;
+				State(xLocation, yLocation) = HumanB;
 			}
 			break;
 		case 4:
+		case 5:
 			if (State(xLocation, yLocation) == Neither)
 			{
-				State(xLocation, yLocation) = Mosquito;
+				State(xLocation, yLocation) = HumanA;
 			}
-			else if (State(xLocation, yLocation) == Human)
+			else if (State(xLocation, yLocation) == HumanB)
 			{
 				State(xLocation, yLocation) = Both;
 			}
 			break;
-		case 5:
-			bool jumped = false;
-			int xDestination;
-			int yDestination;
-			do {
-				int random_neighbour = distribution(generator);
-				if (random_neighbour == 8)
-				{
-					xDestination = xLocation;
-					yDestination = yLocation;
-				}
-				else
-				{
-					xDestination = xLocation + nbrX[random_neighbour];
-					yDestination = yLocation + nbrY[random_neighbour];
-				}
-					if ((*ModState(xDestination, yDestination) == Human) || (*ModState(xDestination, yDestination) == Neither))
-					{
-						if (State(xLocation, yLocation) == Mosquito)
-						{
-							State(xLocation, yLocation) = Neither;
-							if (*ModState(xDestination, yDestination) == Human)
-							{
-								*ModState(xDestination, yDestination) = Both;
-							}
-							else if (*ModState(xDestination, yDestination) == Neither)
-							{
-								*ModState(xDestination, yDestination) = Mosquito;
-							}
-						}
-						else if (State(xLocation, yLocation) == Both)
-						{
-							State(xLocation, yLocation) = Human;
-							if (*ModState(xDestination, yDestination) == Human)
-							{
-								*ModState(xDestination, yDestination) = Both;
-							}
-							else if (*ModState(xDestination, yDestination) == Neither)
-							{
-								*ModState(xDestination, yDestination) = Mosquito;
-							}
-						}
-						jumped = true;
-					}
-			} while (!jumped);
-
 		}
 	}
-
-
-
-	/*int total = nRow * nCol;
-
-	int x2, y2, x3, y3;*/
-
-
-	/*double maxrate = __max(__max(dBirth1, dDeath1), __max(dBirth2, dDeath2));
-	dBirth1 /= maxrate;
-	dBirth2 /= maxrate;
-	dDeath1 /= maxrate;
-	dDeath2 /= maxrate;*/
-
-	/*double maxrate = __max(__max(__max(mJump, mInfectH), __max(hRecover, hInfectM)), hInfectH);
-	mJump /= maxrate;
-	mInfectH /= maxrate;
-	hRecover /= maxrate;
-	bite /= maxrate;*/
-
-	/*int dir, dir2;
-	for (int ii = 0; ii < total / (speed + 1); ii++)
-	{
-		int iX = pRand->IRandom(0, nRow - 1);
-		int iY = pRand->IRandom(0, nCol - 1);
-
-		double dUniform = pRand->Random();
-
-		int nCount1 = 0;
-		int nCount2 = 0;
-		int iDir;
-		double totalRate;
-		double partialRate1;
-		double partialRate2;
-
-		double infNbrH = 0;
-		double infNbrM = 0;
-*/
-/*for (int i = 0; i < 4; i++)
-{
-	if (State(iX + nbrX[i], iY + nbrY[i]) == Human || State(iX + nbrX[i], iY + nbrY[i]) == Both)
-	{
-		infNbrH += .25;
-	}
-
-	if (State(iX + nbrX[i], iY + nbrY[i]) == Mosquito || State(iX + nbrX[i], iY + nbrY[i]) == Both)
-	{
-		infNbrM += .25;
-	}
-}
-
-double infBiteNbrH = 0;
-double infBiteNbrM = 0;
-
-for (int i = 0; i < 8; i++)
-{
-	if (State(iX + nbrX[i], iY + nbrY[i]) == Human || State(iX + nbrX[i], iY + nbrY[i]) == Both)
-	{
-		infBiteNbrH += .125;
-	}
-
-	if (State(iX + nbrX[i], iY + nbrY[i]) == Mosquito || State(iX + nbrX[i], iY + nbrY[i]) == Both)
-	{
-		infBiteNbrM += .125;
-	}
-}*/
-
-
-/*
-switch (State(iX, iY))
-{
-case Neither:
-	if (hInfectH > dUniform)
-	{
-		dir = pRand->IRandom(0, 3);
-	}
-
-	x2 = (iX + nbrX[dir] + nRow) % nRow;
-	y2 = (iY + nbrY[dir] + nCol) % nCol;
-
-	if (State(x2, y2) == Human || State(x2, y2) == Both)
-	{
-		State(iX, iY) = Human;
-	}
-
-	if (bite > dUniform)
-	{
-		dir2 = pRand->IRandom(0, 7);
-	}
-	x3 = (iX + nbrX[dir2] + nRow) % nRow;
-	y3 = (iY + nbrY[dir2] + nCol) % nCol;
-
-	if (State(x3, y3) == Human || State(x3, y3) == Both)
-	{
-		if (State(iX, iY) == Human)
-		{
-			State(iX, iY) = Both;
-		}
-		else
-		{
-			State(iX, iY) = Mosquito;
-		}
-	}
-
-	if (State(x3, y3) == Mosquito || State(x3, y3) == Both)
-	{
-		if (State(iX, iY) == Human)
-		{
-			State(iX, iY) = Both;
-		}
-		else
-		{
-			State(iX, iY) = Mosquito;
-		}
-	}
-	break;
-
-
-case Mosquito:
-	if (mJump > dUniform)
-	{
-		dir = pRand->IRandom(0, 3);
-	}
-
-	x2 = (iX + nbrX[dir] + nRow) % nRow;
-	y2 = (iY + nbrY[dir] + nCol) % nCol;
-
-	if (State(x2, y2) == Human || State(x2, y2) == Neither)
-	{
-		State(x2, y2) = Mosquito;
-		State(iX, iY) = Neither;
-	}
-
-	if (hInfectH > dUniform)
-	{
-		dir = pRand->IRandom(0, 3);
-	}
-
-	x3 = (iX + nbrX[dir] + nRow) % nRow;
-	y3 = (iY + nbrY[dir] + nCol) % nCol;
-
-	if (State(x3, y3) == Human || State(x3, y3) == Both)
-	{
-		State(iX, iY) = Human;
-	}
-	break;
-
-case Human:
-	if (hRecover > dUniform)
-	{
-		State(iX, iY) = Neither;
-	}
-
-	if (hInfectM > dUniform)
-	{
-		dir = pRand->IRandom(0, 7);
-	}
-
-	x2 = (iX + nbrX[dir] + nRow) % nRow;
-	y2 = (iY + nbrY[dir] + nCol) % nCol;
-
-	if (State(x2, y2) == Human || State(x2, y2) == Both)
-	{
-		State(iX, iY) = Both;
-	}
-
-	break;
-
-case Both:
-	if (hRecover > dUniform)
-	{
-		State(iX, iY) = Mosquito;
-	}
-	break;
-
-}
-}*/
 
 FreqStat(pSpatial);
 

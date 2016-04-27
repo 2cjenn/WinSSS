@@ -58,6 +58,49 @@ ModelTemplate::ModelTemplate()
 
 	pRand = new MyRand(0);
 
+	//r = 5
+	for (int i = 0; i < 11; i++)
+	{
+		nbrFX[i] = 5;
+		nbrFY[i] = 5 - i;
+	}
+	for (int i = 11; i < 20; i++)
+	{
+		nbrFX[i] = 15 - i;
+		nbrFY[i] = -5;
+	}
+	for (int i = 20; i < 31; i++)
+	{
+		nbrFX[i] = -5;
+		nbrFY[i] = i - 25;
+	}
+	for (int i = 31; i < 40; i++)
+	{
+		nbrFX[i] = i - 35;
+		nbrFY[i] = 5;
+	}
+
+	//r = 10
+	for (int i = 0; i < 21; i++)
+	{
+		nbrTX[i] = 10;
+		nbrTY[i] = 10 - i;
+	}
+	for (int i = 21; i < 40; i++)
+	{
+		nbrTX[i] = 30 - i;
+		nbrTY[i] = -10;
+	}
+	for (int i = 40; i < 61; i++)
+	{
+		nbrTX[i] = -10;
+		nbrTY[i] = i - 50;
+	}
+	for (int i = 61; i < 80; i++)
+	{
+		nbrTX[i] = i - 70;
+		nbrTY[i] = 10;
+	}
 }
 
 ModelTemplate::ModelTemplate(int rowcol)

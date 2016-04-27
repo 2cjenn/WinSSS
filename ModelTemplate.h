@@ -29,6 +29,10 @@ protected:
 	int nbr;
 	int nbrX[24];
     int nbrY[24];
+	int nbrFX[40];
+	int nbrFY[40];
+	int nbrTX[80];
+	int nbrTY[80];
 	int nTotal;
 	int nWndSize; // window size for freq.
 	double ** timerArray;
