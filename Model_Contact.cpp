@@ -110,8 +110,9 @@ void Model_Contact::Simulation(SpatialWnd * pSpatial, int speed)
 		case 0:
 			if (dBirth > dUniform)
 			dir = pRand->IRandom(0,3);
-	//		for( i=0; i<nbr; i++)
 			{
+	//		for( i=0; i<nbr; i++)
+			
 				x2 = (x + nbrX[dir] + nRow) % nRow;
 				y2 = (y + nbrY[dir] + nCol) % nCol;
 			}

@@ -405,7 +405,7 @@ BEGIN
     EDITTEXT        IDC_EDIT_Death2,104,35,26,14,ES_AUTOHSCROLL
     LTEXT           "HinfH",IDC_STATIC,10,13,19,8//"b(0,1)"
     LTEXT           "Mmov",IDC_STATIC,10,39,19,8//"b(0,2)"
-    LTEXT           "Hrec",IDC_STATIC,80,13,19,8//"d(1,0)"
+    LTEXT           "Bite",IDC_STATIC,80,13,19,8//"d(1,0)"
     LTEXT           "Mdie",IDC_STATIC,80,37,19,8//"d(2,0)"
 END
 

@@ -27,6 +27,10 @@ Model_LVoter::~Model_LVoter()
 
 }
 
+
+
+
+
 Model_LVoter::Model_LVoter(int rowcol, void * tempPara)
 {
 	Para = (ParaDlg_Voter *) tempPara;

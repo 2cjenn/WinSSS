@@ -11,6 +11,8 @@
 
 #include "ModelTemplate.h"
 #include "ParaDlg_Voter.h"
+#include <random>
+
 
 class Model_LVoter : public ModelTemplate 
 {

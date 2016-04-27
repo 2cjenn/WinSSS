@@ -20,8 +20,8 @@ ParaDlg_MultiCont::ParaDlg_MultiCont(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(ParaDlg_MultiCont)
 	m_birth1 = 0.25f;
-	m_birth2 = 3.0f;
-	m_death1 = 0.5f;
+	m_birth2 = 4.0f;
+	m_death1 = 2.0f;
 	m_death2 = 0.5f;
 	//}}AFX_DATA_INIT
 }

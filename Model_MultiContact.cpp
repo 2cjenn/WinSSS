@@ -50,6 +50,9 @@ Model_MultiContact::Model_MultiContact(int rowcol, void * tempPara)
 
 enum Infected { Neither = 0, Mosquito = 1, Human = 2, Both = 3 };
 
+int kDest;
+int lDest;
+
 void Model_MultiContact::ResetTimers()
 {
 	/*double dBirth1 = Para->m_birth1;
@@ -57,12 +60,12 @@ void Model_MultiContact::ResetTimers()
 	double dDeath1 = Para->m_death1;
 	double dDeath2 = Para->m_death2;*/
 
-	double hRecover = Para->m_death1;
+	double hRecover = 1;
 	double hInfectH = Para->m_birth1;
-	double mInfectH = 1;
+	double mInfectH = Para->m_death1;
 
 	double mDie = Para->m_death2;
-	double hInfectM = 1;
+	double hInfectM = Para->m_death1;
 	double mJump = Para->m_birth2;
 
 	/*double bite = 1;*/
@@ -88,12 +91,17 @@ void Model_MultiContact::ResetTimers()
 
 				if ((*ModState(kMod, lMod) == Human) || (*ModState(kMod, lMod) == Both))
 				{
-					infNbrH += .25;
+					infNbrH += 1;
 				}
+			}
+			for (int i = 0; i < 8; i++)
+			{
+				int kMod = k + nbrX[i];
+				int lMod = l + nbrY[i];
 
 				if ((*ModState(kMod, lMod) == Mosquito) || (*ModState(kMod, lMod) == Both))
 				{
-					infNbrM += .25;
+					infNbrM += 1;
 				}
 			}
 			//find connected lattice neighbours
@@ -107,21 +115,21 @@ void Model_MultiContact::ResetTimers()
 
 				if ((*ModState(kMod, lMod) == Human) || (*ModState(kMod, lMod) == Both))
 				{
-					infBiteNbrH += 1.0 / 9.0;
+					infBiteNbrH += 1.0;
 				}
 
 				if ((*ModState(kMod, lMod) == Mosquito) || (*ModState(kMod, lMod) == Both))
 				{
-					infBiteNbrM += 1.0 / 9.0;
+					infBiteNbrM += 1.0;
 				}
 			}
 			if ((State(k, l) == Human) || (State(k, l) == Both))
 			{
-				infBiteNbrH += 1.0 / 9.0;
+				infBiteNbrH += 1.0;
 			}
 			if ((State(k, l) == Mosquito) || (State(k, l) == Both))
 			{
-				infBiteNbrM += 1.0 / 9.0;
+				infBiteNbrM += 1.0;
 			}
 
 			double timer;
@@ -203,10 +211,10 @@ void Model_MultiContact::ResetTimers()
 			//Case 5 Mosquito moves
 			if ((State(k, l) == Mosquito) || (State(k, l) == Both))
 			{
-				if (1 - infNbrM != 0)
+				if (8 - infNbrM != 0)
 				{
 					timer = d1(generator);
-					timer = timer / (mJump * (1 - infNbrM));
+					timer = timer / (mJump * (8 - infNbrM));
 					if (timer < minTimer)
 					{
 						action = 5;
@@ -254,7 +262,7 @@ void Model_MultiContact::Initialization()
 			State((nRow / 2 + i), (nCol / 2 + j)) = 1;
 		}
 	}
-	for (int i = -32; i <= -30; i++)
+	/*for (int i = -32; i <= -30; i++)
 	{
 		for (int j = -15; j <= -13; j++)
 		{
@@ -267,7 +275,7 @@ void Model_MultiContact::Initialization()
 		{
 			State((nRow / 2 + i), (nCol / 2 + j)) = 1;
 		}
-	}
+	}*/
 }
 
 

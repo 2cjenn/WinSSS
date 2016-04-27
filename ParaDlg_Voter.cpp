@@ -18,21 +18,24 @@ static char THIS_FILE[] = __FILE__;
 ParaDlg_Voter::ParaDlg_Voter(CWnd* pParent /*=NULL*/)
 	: CDialog(ParaDlg_Voter::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(ParaDlg_Voter)
+	////{{AFX_DATA_INIT(ParaDlg_Voter)
 
 	m_nStates = 4;
 
 	m_bThreshold = FALSE;
 	m_nbr = 4;
 	m_nThreshold = 1;
-	//}}AFX_DATA_INIT
+	////}}AFX_DATA_INIT
 }
 
 
 void ParaDlg_Voter::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(ParaDlg_Voter)
+	
+
+	//CDialog::DoDataExchange(pDX);
+	////{{AFX_DATA_MAP(ParaDlg_Voter)
 	DDX_Control(pDX, IDC_CHECK_Threshold, m_CheckThreshold);
 	DDX_Control(pDX, IDC_EDIT_Threshold, m_EditThreshold);
 	DDX_Control(pDX, IDC_COMBO_Nbr, m_ComboNbr);
@@ -45,15 +48,15 @@ void ParaDlg_Voter::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Check(pDX, IDC_CHECK_Threshold, m_bThreshold);
 	DDX_Text(pDX, IDC_EDIT_Threshold, m_nThreshold);
-	//}}AFX_DATA_MAP
+	////}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(ParaDlg_Voter, CDialog)
-	//{{AFX_MSG_MAP(ParaDlg_Voter)
+	////{{AFX_MSG_MAP(ParaDlg_Voter)
 	ON_CBN_SELCHANGE(IDC_COMBO_Nbr, OnSelchangeCOMBONbr)
 	ON_BN_CLICKED(IDC_CHECK_Threshold, OnCHECKThreshold)
-	//}}AFX_MSG_MAP
+	////}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
